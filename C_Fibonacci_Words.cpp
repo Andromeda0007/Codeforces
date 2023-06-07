@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define int long long
 #define pb  push_back
 #define mp  make_pair
 #define IO_FAST                 ios_base::sync_with_stdio(false); cin.tie(NULL);
@@ -23,32 +22,35 @@ signed main()
     int t = 1;
     while(t--)
     {
-        int n;
-        cin >> n;
+        string s1;
+        cin >> s1;
         vector<int> v1;
-        inputvec(v1, n);
-
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+        
+        for(int i=0; i<s1.size(); i++)
         {
-            if(i&1)
+            int k = int(s1[i]) - 65;
+            v1.pb(k);
+        }
+
+        bool flag=true;
+
+        for(int i=2; i<s1.size(); i++)
+        {
+            if((v1[i-2]+v1[i-1])%26 != v1[i])
             {
-                if(v1[i]==1 || v1[i]== 2)
-                {
-                    v1[i] = 3 - v1[i] ;
-                }
-            }
-            num &= v1[i];
-            if(num == 0)
-            {
-                num = 3 ;
-                ans++ ;
+                flag = false;
+                break;
             }
         }
-        cout << ans << endl;
-    }  
+
+        cout <<(flag? "YES\n" : "NO\n");
+
+
+
+        6
+4
+
+	}
 }
 
 

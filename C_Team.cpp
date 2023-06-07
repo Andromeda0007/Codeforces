@@ -23,32 +23,55 @@ signed main()
     int t = 1;
     while(t--)
     {
-        int n;
-        cin >> n;
-        vector<int> v1;
-        inputvec(v1, n);
+        int n, m;
+        cin >> n >> m;
 
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+        if(m<n-1)
         {
-            if(i&1)
+            cout << -1 << endl;
+        }
+        else if(m > 2*n+2)
+        {
+            cout << -1 << endl;
+        }
+        else
+        {
+            string s1 = "";
+
+            if(n-m==1)
             {
-                if(v1[i]==1 || v1[i]== 2)
+                for(int i=0; i<m; i++)
                 {
-                    v1[i] = 3 - v1[i] ;
+                    s1 += "01";
+                }
+                s1 +='0';
+            }
+            else
+            {
+                while(m!=n && n>0)
+                {
+                    s1 += "110";
+                    m-=2;
+                    n-=1;
+                }
+
+                for(int i=0; i<n; i++)
+                {
+                    s1 += "10";
+                    m--;
+                }
+
+                for(int i=0; i<m; i++)
+                {
+                    s1 += '1';
                 }
             }
-            num &= v1[i];
-            if(num == 0)
-            {
-                num = 3 ;
-                ans++ ;
-            }
+
+            cout << s1 << endl;
+
         }
-        cout << ans << endl;
-    }  
+       
+	}
 }
 
 

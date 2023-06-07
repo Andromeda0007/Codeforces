@@ -16,39 +16,49 @@ using namespace std;
 #define lowerbound(v1, k)       lower_bound(v1.begin(), v1.end(), k)
 int gcd(int a,int b)            { if (b==0) return a; return gcd(b, a%b); } // take a=0;
 int lcm(int a,int b)            { return a/gcd(a,b)*b; }  // take a = v[0];
+
+//================================================================================================================//
+vector<int> primefactors;
+void factorize(int n)     
+{
+	while(n%2==0)   primefactors.pb(2),   n = n/2;
+	for(int i=3; i<=sqrt(n); i=i+2)   while(n%i==0)   primefactors.pb(i),  n = n/i;
+	if(n>2) primefactors.pb(n);
+}
+//================================================================================================================//
+vector<int> divisors;
+void factors(int n)
+{
+    for(int i=1; i<=n; i++)
+    {
+        if(n%i==0)  divisors.pb(i);       
+    }
+}
+//================================================================================================================//
 signed main()
 {
     IO_FAST
-    vector<string> v;
     int t = 1;
     while(t--)
     {
         int n;
         cin >> n;
-        vector<int> v1;
-        inputvec(v1, n);
+        factorize(n);
+        set<int> s;
 
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+
+        for(auto &value : primefactors)
         {
-            if(i&1)
-            {
-                if(v1[i]==1 || v1[i]== 2)
-                {
-                    v1[i] = 3 - v1[i] ;
-                }
-            }
-            num &= v1[i];
-            if(num == 0)
-            {
-                num = 3 ;
-                ans++ ;
-            }
+            s.insert(value);
+        }
+
+        int ans = 1;
+        for(auto &value : s)
+        {
+            ans *= value;
         }
         cout << ans << endl;
-    }  
+	}
 }
 
 

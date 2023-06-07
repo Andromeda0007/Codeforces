@@ -21,6 +21,7 @@ signed main()
     IO_FAST
     vector<string> v;
     int t = 1;
+    cin >> t;
     while(t--)
     {
         int n;
@@ -28,27 +29,35 @@ signed main()
         vector<int> v1;
         inputvec(v1, n);
 
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+        int r;
+        
+        int max1 = INT_MIN;
+        for(int i=1; i<n; i++)
         {
-            if(i&1)
+            if(v1[i]>max1)
             {
-                if(v1[i]==1 || v1[i]== 2)
-                {
-                    v1[i] = 3 - v1[i] ;
-                }
+                max1 = v1[i];
+                r=i-1;
             }
-            num &= v1[i];
-            if(num == 0)
+
+        }
+        deb(r);
+        deb(max1);
+
+        int l;
+        int max2 = INT_MIN;
+        for(int i=0; i<=r; i++)
+        {
+            if(v1[i]>max2)
             {
-                num = 3 ;
-                ans++ ;
+                max2 = v1[i];
+                l=i-1;
             }
         }
-        cout << ans << endl;
-    }  
+        deb(l);
+        deb(max2);
+
+	}
 }
 
 

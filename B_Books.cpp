@@ -23,32 +23,70 @@ signed main()
     int t = 1;
     while(t--)
     {
-        int n;
-        cin >> n;
+        int n, t;
+        cin >> n >> t;
         vector<int> v1;
         inputvec(v1, n);
 
-        int ans = 0; 
-        int num = 3;
-     
+        vector<int> v2;
+
+        int count=0;
+        int time = 0;
+        int pos = 0;
         for(int i=0; i<n; i++)
         {
-            if(i&1)
+            time+=v1[i];
+            if(time<=t)
             {
-                if(v1[i]==1 || v1[i]== 2)
+                count++;
+                v2.pb(count);
+            }
+            else
+            {
+                cout << "apple " <<  i-count << endl;
+                cout << "Pehletime " << time << endl;
+               
+                if(pos==0)
                 {
-                    v1[i] = 3 - v1[i] ;
+                    time -= v1[i];
                 }
+                else
+                {
+                    if(count==0)
+                    time -= v1[i-count];
+                }
+                
+    
+                cout << "baadtime " << time << endl;
+                if(count>0)
+                {
+                    count--;
+                }
+                if(time<=t && pos!=i)
+                {
+                    count++;
+                }
+
+                v2.pb(count);
             }
-            num &= v1[i];
-            if(num == 0)
-            {
-                num = 3 ;
-                ans++ ;
-            }
+
+            printvec(v2);
+            deb(time);
+            deb(count);
+
+
+            pos++;
+            
+
         }
-        cout << ans << endl;
-    }  
+
+        printvec(v2);
+        sort(v2);
+
+        int ans = v2[v2.size()-1];
+
+        deb(ans);
+	}
 }
 
 

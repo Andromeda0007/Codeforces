@@ -21,34 +21,38 @@ signed main()
     IO_FAST
     vector<string> v;
     int t = 1;
+    cin >> t;
     while(t--)
     {
         int n;
-        cin >> n;
-        vector<int> v1;
-        inputvec(v1, n);
+        cin>>n;
+        vector<int>v1;
+        inputvec(v1,n);
+        sort(v1);
+        bool flag = false;
 
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
-        {
-            if(i&1)
+        for(int i=0; i<n; ++i)
+        {   
+            int count=0;
+            for(int j=0; j<n; ++j)
             {
-                if(v1[i]==1 || v1[i]== 2)
+                if(v1[j]>i)
                 {
-                    v1[i] = 3 - v1[i] ;
+                    count++;
                 }
             }
-            num &= v1[i];
-            if(num == 0)
+            if(count==i)
             {
-                num = 3 ;
-                ans++ ;
+                flag = true;
+                cout << i << endl;
             }
         }
-        cout << ans << endl;
-    }  
+        if(flag==false)
+        {
+            cout << -1 << endl;
+        }
+    }
+
 }
 
 

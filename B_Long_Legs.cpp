@@ -16,39 +16,25 @@ using namespace std;
 #define lowerbound(v1, k)       lower_bound(v1.begin(), v1.end(), k)
 int gcd(int a,int b)            { if (b==0) return a; return gcd(b, a%b); } // take a=0;
 int lcm(int a,int b)            { return a/gcd(a,b)*b; }  // take a = v[0];
+const int N = 1e5 + 7;
+const int M = 1e9 + 7;
 signed main()
 {
     IO_FAST
     vector<string> v;
     int t = 1;
+    cin >> t;
     while(t--)
     {
-        int n;
-        cin >> n;
-        vector<int> v1;
-        inputvec(v1, n);
+        int a, b;
+        cin >> a >> b;
 
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+        int ans = INT_MAX;
+        for (int i=1; i<N; i++) 
         {
-            if(i&1)
-            {
-                if(v1[i]==1 || v1[i]== 2)
-                {
-                    v1[i] = 3 - v1[i] ;
-                }
-            }
-            num &= v1[i];
-            if(num == 0)
-            {
-                num = 3 ;
-                ans++ ;
-            }
+            int x = i-1 + ((a+i-1)/i) + ((b+i-1)/i);
+            ans = min(ans, x);
         }
-        cout << ans << endl;
-    }  
+        cout << ans << endl; 
+	}
 }
-
-

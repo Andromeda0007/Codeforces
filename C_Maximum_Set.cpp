@@ -20,35 +20,47 @@ signed main()
 {
     IO_FAST
     vector<string> v;
+    int mod = 998244353;
     int t = 1;
+    cin >> t;
     while(t--)
     {
-        int n;
-        cin >> n;
-        vector<int> v1;
-        inputvec(v1, n);
-
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+        int l, r;
+        cin >> l >> r;
+        int count1 = 1;
+        int count2 = 1;
+        int initial = l;
+        while(true) 
         {
-            if(i&1)
+            count1 *= 2;
+            if (count1*initial>r)
             {
-                if(v1[i]==1 || v1[i]== 2)
-                {
-                    v1[i] = 3 - v1[i] ;
-                }
+                break;
             }
-            num &= v1[i];
-            if(num == 0)
+            count2++;
+        } 
+
+        count1 /= 2;
+        int num1 = 0;
+        int num2 = count1 / 2;
+
+        if(num2) 
+        {
+            int k = r/(3*num2);
+            if(k<l)
             {
-                num = 3 ;
-                ans++ ;
+                num1 = r/count1 - l + 1;
+            } 
+            else 
+            {
+                num1 = (k-l+1) * count2 % mod;
+                num1 = num1 + (r/count1-k)%mod;
             }
+            cout << count2 << " " << num1 << endl;
         }
-        cout << ans << endl;
-    }  
+        else 
+        {
+            cout << count2 << " " << r-l+1 << endl;
+        }
+	}
 }
-
-

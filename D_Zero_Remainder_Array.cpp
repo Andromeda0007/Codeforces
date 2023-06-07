@@ -21,34 +21,62 @@ signed main()
     IO_FAST
     vector<string> v;
     int t = 1;
+    cin >> t;
     while(t--)
     {
-        int n;
-        cin >> n;
+        int n, k;
+        cin >> n >> k;
+
         vector<int> v1;
         inputvec(v1, n);
 
-        int ans = 0; 
-        int num = 3;
-     
+        vector<int> v2;
+
         for(int i=0; i<n; i++)
         {
-            if(i&1)
+            int x = k-(v1[i]%k);
+            if(x%k!=0)
             {
-                if(v1[i]==1 || v1[i]== 2)
+                v2.pb(x);
+            }
+
+        }
+
+        if(v2.size()==0)
+        {
+            cout << 0 << endl;
+        }
+        else
+        {
+            map<int,int> m1;
+
+            for(int i=0; i<v2.size(); i++)
+            {
+                if(v2[i]!=0)
                 {
-                    v1[i] = 3 - v1[i] ;
+                    m1[v2[i]]++;
                 }
             }
-            num &= v1[i];
-            if(num == 0)
+
+            int max = INT_MIN;
+            int ans1=0;
+
+            for(auto &value : m1)
             {
-                num = 3 ;
-                ans++ ;
+                if(value.second>=max)
+                {
+                    max = value.second;
+                    ans1 = value.first;
+                }
             }
+
+            int ans = (max-1)*k + ans1+1;
+
+            cout << ans << endl;
+
         }
-        cout << ans << endl;
-    }  
+   
+	}
 }
 
 

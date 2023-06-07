@@ -21,34 +21,57 @@ signed main()
     IO_FAST
     vector<string> v;
     int t = 1;
+    cin >> t;
     while(t--)
     {
         int n;
         cin >> n;
         vector<int> v1;
-        inputvec(v1, n);
+        inputvec(v1,n);
+        bool flag = true;
+        vector<int> v2;
+        int a = 1;
 
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+        for(int i=1; i<n-1; i++)
         {
-            if(i&1)
+            if(v1[i-1]>v1[i] && v1[i]<v1[i+1])
             {
-                if(v1[i]==1 || v1[i]== 2)
-                {
-                    v1[i] = 3 - v1[i] ;
-                }
-            }
-            num &= v1[i];
-            if(num == 0)
-            {
-                num = 3 ;
-                ans++ ;
+                flag = false;
+                break;
             }
         }
-        cout << ans << endl;
-    }  
+
+        int count=0;
+        for(int i=0; i<n-1; i++)
+        {
+            if(v1[i]>=v1[i+1])
+            {
+                if(v1[i]%v1[i+1]!=0)
+                {
+                    count++;
+                }
+            }
+            else if(v1[i]<v1[i+1])
+            {
+                if(v1[i+1]%v1[i]!=0)
+                {
+                    count++;
+                }
+            }
+            else
+            {
+                count=0;
+            }
+
+            if(count==2)
+            {
+                flag = false;
+                break;
+            }
+        }
+
+        cout << ((flag)? "YES\n" : "NO\n");
+	}
 }
 
 

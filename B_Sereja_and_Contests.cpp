@@ -20,35 +20,78 @@ signed main()
 {
     IO_FAST
     vector<string> v;
-    int t = 1;
-    while(t--)
-    {
-        int n;
-        cin >> n;
-        vector<int> v1;
-        inputvec(v1, n);
 
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+    int n, k;
+    cin >> n >> k;
+    int arr[n];
+    arr[0]=-1;
+
+    for(int i=1; i<n; i++)
+    {
+        arr[i]=1;
+    }
+    while(k--)
+    {
+        int a;
+        cin >> a;
+
+        if(a==1)
         {
-            if(i&1)
+            int b, c;
+            cin >> b >> c;
+            arr[b]--;
+            arr[c]--;
+        }
+        else
+        {
+            int b;
+            cin >> b;
+            arr[b]--;
+        }
+    }
+
+    vector<int> v1;
+    int count=0;
+    for(int i=0; i<n; i++)
+    {
+        if(arr[i]==1)
+        {
+            v1.pb(i);
+            count++;
+        }
+    }
+
+    int ans1=0;
+    if(v1.size()==0)
+    {
+        cout << 0 << " " << 0 << endl;
+    }
+    else if(v1.size()==1)
+    {
+        cout  << 1 << " " << 1 << endl;
+    }
+    else
+    {
+        for(int i=0; i<v1.size()-1; i++)
+        {
+            if(v1[i+1]-v1[i]==1)
             {
-                if(v1[i]==1 || v1[i]== 2)
-                {
-                    v1[i] = 3 - v1[i] ;
-                }
+                ans1++;
+                i++;
             }
-            num &= v1[i];
-            if(num == 0)
+            else
             {
-                num = 3 ;
-                ans++ ;
+                ans1++;
+            }
+            if(i==v1.size()-2)
+            {
+                ans1++;
             }
         }
-        cout << ans << endl;
-    }  
+
+        cout << ans1 << " " << count << endl;
+    }
+
 }
 
 

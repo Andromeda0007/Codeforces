@@ -20,35 +20,50 @@ signed main()
 {
     IO_FAST
     vector<string> v;
-    int t = 1;
+    int t;
+    cin >> t;
     while(t--)
     {
         int n;
         cin >> n;
-        vector<int> v1;
-        inputvec(v1, n);
 
-        int ans = 0; 
-        int num = 3;
-     
-        for(int i=0; i<n; i++)
+        vector<int> v1;
+        int a = n;
+        for(int i=2; i<=sqrt(a); i++)
         {
-            if(i&1)
+            if(n%i==0)
             {
-                if(v1[i]==1 || v1[i]== 2)
-                {
-                    v1[i] = 3 - v1[i] ;
-                }
+                v1.push_back(i);
+                n = n/i;
             }
-            num &= v1[i];
-            if(num == 0)
+
+
+            if(v1.size()==2)
             {
-                num = 3 ;
-                ans++ ;
+                break;
             }
         }
-        cout << ans << endl;
-    }  
+
+        if(v1.size()<2)
+        {
+            cout << "NO" << endl;
+        }
+        else
+        {
+            if(v1[0]==n || v1[1]==n)
+            {
+                cout << "NO" << endl;
+            }
+            else
+            {
+                cout << "YES" << endl;
+
+                cout << v1[0] << " " << v1[1] << " " << n << endl;
+            }
+           
+        }
+        
+    }
 }
 
 
