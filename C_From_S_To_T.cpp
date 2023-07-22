@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,38 +64,83 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        string s1, s2, s3;
+        cin >> s1 >> s2 >> s3;
+        vector<int> v1(s2.size(), 0);
 
-        time += v1[i];
-        if(time<=t)
+        int pos = 0;
+        for(int i=0; i<s1.size();)
         {
-            count++;
+            for(int j=pos; j<s2.size(); j++)
+            {
+                if(s1[i]==s2[j])
+                {
+                    pos=j+1;
+                    v1[j]=1;
+                    i++;
+                }
+            }
+            
+            break;
+        }
+
+        int count=0;
+        for(int i=0; i<v1.size(); i++)
+        {
+            if(v1[i]==1)
+            {
+                count++;
+            }
+        }
+
+        if(count<s1.size())
+        {
+            cout << "no" << endl;
         }
         else
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            map<char,int> m1;
+            map<char,int> m2;
+
+            for(int i=0; i<s3.size(); i++)
+            {
+                m1[s3[i]]++;
+            }
+            
+            for(int i=0; i<v1.size(); i++)
+            {
+                if(v1[i]!=1)
+                {
+                    m1[s2[i]]--;
+                }
+            }
+
+            bool flag = true;
+
+            for(auto &value : m1)
+            {
+                if(value.second<0)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            
+
+            if(flag)
+            {
+                cout << "YES" << endl;
+            }
+            else
+            {
+                cout << "NO" << endl;
+
+            }
+           
         }
-
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 

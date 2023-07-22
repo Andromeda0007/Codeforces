@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,38 +64,66 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
+    int size, n;
+    cin >> size >> n;
 
     vector<int> v1;
-    inputvec(v1, n);
+
+    while(n>0)
+    {
+        int k = n%10;
+        v1.pb(k);
+        n/=10;
+    }
 
     vector<int> v2;
 
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    for(int i=0; i<v1.size(); i++)
     {
-
-        time += v1[i];
-        if(time<=t)
+        if(v1[i]==1 || v1[i]==0)
         {
-            count++;
+            continue;
         }
-        else
+        else if(v1[i]==2 || v1[i]==3 || v1[i]==5 || v1[i]==7)
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            v2.pb(v1[i]);
         }
-
+        else if(v1[i]==4)
+        {
+            v2.pb(2);
+            v2.pb(2);
+            v2.pb(3);
+        }
+        else if(v1[i]==6)
+        {
+            v2.pb(3);
+            v2.pb(5);
+        }
+        else if(v1[i]==8)
+        {
+            v2.pb(2);
+            v2.pb(2);
+            v2.pb(2);
+            v2.pb(7);
+        }
+        else if(v1[i]==9)
+        {
+            v2.pb(7);
+            v2.pb(3);
+            v2.pb(3);
+            v2.pb(2);
+        }
     }
-    v2.pb(count);
 
     sort(v2);
-    cout << v2[v2.size()-1] << endl;
+    reverse(v2);
+
     
+    for(int i=0; i<v2.size(); i++)
+    {
+        cout << v2[i];
+    }
+    cout << endl;
     
 }
 

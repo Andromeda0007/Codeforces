@@ -10,7 +10,7 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
+#define print(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -20,6 +20,9 @@ using namespace std;
 #define auto2(v1)               for(auto &value : v1) {cout << value.first << " " <<value.second << endl;} 
 int gcd(int a,int b)            { if (b==0) return a; return gcd(b, a%b); } // take a=0;
 int lcm(int a,int b)            { return a/gcd(a,b)*b; }  // take a = v[0];
+
+const int N = 1e5+10;
+vector<int> dp(N, -1);
 
 //================================================================================================================//
 vector<int> primefactors; // Does the primefactorisation of a number;
@@ -65,38 +68,63 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        int a, b, c, d, e, f;
+        cin >> a >> b >> c >> d >> e >> f;
 
-        time += v1[i];
-        if(time<=t)
-        {
-            count++;
-        }
-        else
-        {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
-        }
+        int x1 = c-a;
+        int y1 = d-b;
+        int x2 = e-a;
+        int y2 = f-b;
 
+        int p = x1;
+        int q = y1;
+        int r = x2;
+        int s = y2;
+
+        if(x1>0) x1=1;
+        else if(x1<0) x1=-1;
+
+        if(x2>0) x2=1;
+        else if(x2<0) x2=-1;
+
+        if(y1>0) y1=1;
+        else if(y1<0) y1=-1;
+
+        if(y2>0) y2=1;
+        else if(y2<0) y2=-1;
+        
+
+        if(x1!=x2 && y1!=y2)
+        {
+            cout << 1 << endl;
+        }
+        else if(x1==x2 && y1!=y2)
+        {
+            int sum = 1;
+            int x = min(abs(p), abs(r));
+            sum += x;
+            cout << sum << endl;
+        }
+        else if(x1!=x2 && y1==y2)
+        {
+            int sum = 1;
+            int x = min(abs(q), abs(s));
+            sum += x;
+            cout << sum << endl;
+        }
+        else if(x1==x2 && y1==y2)
+        {
+            int sum = 1;
+
+            int x = min(abs(p), abs(r));
+            int y = min(abs(q), abs(s));
+
+            sum += x+y;
+            cout << sum << endl;
+        }
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 

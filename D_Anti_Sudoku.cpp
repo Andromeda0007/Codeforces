@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,38 +64,86 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        vector<vector<char>> v;
 
-        time += v1[i];
-        if(time<=t)
+        for(int i=0; i<9; i++)
         {
-            count++;
+            vector<char> v1;
+            for(int j=0; j<9; j++)
+            {
+                char c1;
+                cin >> c1;
+                v1.pb(c1);
+            }
+            v.pb(v1);
         }
-        else
+
+        char c1 = v[0][0];
+        char c2 = v[1][4];
+        char c3 = v[2][8];
+        char c4 = v[3][1];
+        char c5 = v[4][5];
+        char c6 = v[5][6];
+        char c7 = v[6][2];
+        char c8 = v[7][3];
+        char c9 = v[8][7];
+
+        int a1 = c1 -'0';
+        int a2 = c2 -'0';
+        int a3 = c3 -'0';
+        int a4 = c4 -'0';
+        int a5 = c5 -'0';
+        int a6 = c6 -'0';
+        int a7 = c7 -'0';
+        int a8 = c8 -'0';
+        int a9 = c9 -'0';
+
+        a1++;  if(a1==10) a1=1;
+        a2++;  if(a2==10) a2=1;
+        a3++;  if(a3==10) a3=1;
+        a4++;  if(a4==10) a4=1;
+        a5++;  if(a5==10) a5=1;
+        a6++;  if(a6==10) a6=1;
+        a7++;  if(a7==10) a7=1;
+        a8++;  if(a8==10) a8=1;
+        a9++;  if(a9==10) a9=1;
+
+
+        c1 = a1 + '0';
+        c2 = a2 + '0';
+        c3 = a3 + '0';
+        c4 = a4 + '0';
+        c5 = a5 + '0';
+        c6 = a6 + '0';
+        c7 = a7 + '0';
+        c8 = a8 + '0';
+        c9 = a9 + '0';
+        
+        v[0][0] = c1;
+        v[1][4] = c2;
+        v[2][8] = c3;
+        v[3][1] = c4;
+        v[4][5] = c5;
+        v[5][6] = c6;
+        v[6][2] = c7;
+        v[7][3] = c8;
+        v[8][7] = c9;
+
+        
+        for(int i=0; i<9; i++)
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            for(int j=0; j<9; j++)
+            {
+                cout << v[i][j];
+            }
+            cout << endl;
         }
+
+        
 
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 

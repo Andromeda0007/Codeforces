@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,38 +64,74 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
-
-        time += v1[i];
-        if(time<=t)
+        int n;
+        cin >> n;
+        vector<int> v1;
+        vector<int> v2;
+        inputvec(v1, n);
+        inputvec(v2, n);
+        
+        vector<pair<int,int>> vp1;
+        for(int i=0; i<n; i++)
         {
-            count++;
+            vp1.pb(mp(v1[i], i+1));
+        }
+
+        vector<pair<int,int>> vp2;
+        for(int i=0; i<n; i++)
+        {
+            vp2.pb(mp(v1[i], v2[i]));
+        }
+
+        sort(vp1);
+        sort(vp2);
+    
+        vector<pair<int,int>> vp3;
+        for(int i=0; i<n; i++)
+        {
+            int k = i+1 - vp1[i].second;
+            vp3.pb(mp(k, vp2[i].second));
+        }
+
+        int sum = 0;
+
+        for(int i=0; i<n; i++)
+        {
+            if(vp3[i].first>0)
+            {
+                if(vp3[i].second==1)
+                {
+                    sum += vp3[i].first;
+                }
+                else 
+                {
+                    sum -= vp3[i].first;
+                }
+            }
+            else if(vp3[i].first<0)
+            {
+                if(vp3[i].second==0)
+                {
+                    sum += vp3[i].first;
+                }
+                else 
+                {
+                    sum -= vp3[i].first;
+                }
+            }
+        }
+
+        if(sum==0)
+        {
+            cout << "Yes" << endl;
         }
         else
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            cout << "No" << endl;
         }
-
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 

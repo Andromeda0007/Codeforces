@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,39 +64,55 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    string  s1;
+    cin >> s1;
+    
+    int count1=0;
+    int count2=0;
+    bool flag = false;
+    for(int i=0; i<s1.size()-1; i++)
     {
-
-        time += v1[i];
-        if(time<=t)
+        if(s1[i]=='A' && s1[i+1]=='B' && count1==0)
         {
-            count++;
+            count1++;
+            i++;
         }
-        else
+        else if (s1[i]=='B' && s1[i+1]=='A' && count2==0)
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            count2++;
+            i++;
         }
 
     }
-    v2.pb(count);
+    if(count1>=1 && count2>=1)
+    {
+        flag = true;
+    }
 
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
+
+    count1=0;
+    count2=0;
+
+    for(int i=s1.size()-1; i>=1; i--)
+    {
+        if(s1[i-1]=='A' && s1[i]=='B' && count1==0)
+        {
+            count1++;
+            i--;
+        }
+        else if (s1[i-1]=='B' && s1[i]=='A' && count2==0)
+        {
+            count2++;
+            i--;
+        }
+
+    }
+    if(count1==1 && count2==1)
+    {
+        flag = true;
+    }
+
+
+    flag? cout << "YES\n" : cout << "NO\n"; 
     
 }
-
-

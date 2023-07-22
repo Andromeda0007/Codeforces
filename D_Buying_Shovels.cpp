@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -26,14 +25,14 @@ vector<int> primefactors; // Does the primefactorisation of a number;
 void factorize(int n)     
 {
 	while(n%2==0)   primefactors.pb(2),   n = n/2;
-	for(int i=3; i<=sqrt(n); i=i+2)   while(n%i==0)   primefactors.pb(i),  n = n/i;
+	for(int i=3; i<=n; i=i+2)   while(n%i==0)   primefactors.pb(i),  n = n/i;
 	if(n>2) primefactors.pb(n);
 }
 //================================================================================================================//
 vector<int> divisors; // Gives me all the different factors.
 void factors(int n)
 {
-    for(int i=1; i<=n; i++){ if(n%i==0)  divisors.pb(i);}
+    for(int i=1; i<=n; i++){ if(n%i==0)  {divisors.pb(i);}}
 }
 //================================================================================================================//
 vector<vector<int>> subsets;  // To Generate all the subsets of a vector;
@@ -65,39 +64,51 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        int n, k;
+        cin >> n >> k;
 
-        time += v1[i];
-        if(time<=t)
+        if(k>=n)
         {
-            count++;
+            cout << 1 << endl;
+        }
+        else if(k==1)
+        {
+            cout << n << endl;
         }
         else
-        {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+        {   
+            bool flag = false;
+            bool check = false;
+            int ans=n;
+            for(int i=1; i<=sqrt(n); i++)
+            {
+                if(n%i==0)
+                {
+                    int a = i;
+                    int b = n/i;
+
+                    if(a<=k && b>k)
+                    {
+                        ans = min(ans,b);
+                    }
+                    else if(a>k && b<=k)
+                    {
+                        ans = min(ans,a);
+                    }
+                    else if(a<=k && b<=k)
+                    {
+                        ans = min(ans, min(a,b));
+                    }
+                }
+            }
+
+            cout << ans << endl;
+
+            
         }
-
     }
-    v2.pb(count);
+    
 
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
-    
 }
-
-

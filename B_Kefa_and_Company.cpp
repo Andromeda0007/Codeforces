@@ -10,7 +10,7 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
+#define print(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -20,6 +20,9 @@ using namespace std;
 #define auto2(v1)               for(auto &value : v1) {cout << value.first << " " <<value.second << endl;} 
 int gcd(int a,int b)            { if (b==0) return a; return gcd(b, a%b); } // take a=0;
 int lcm(int a,int b)            { return a/gcd(a,b)*b; }  // take a = v[0];
+
+const int N = 1e5+10;
+vector<int> dp(N, -1);
 
 //================================================================================================================//
 vector<int> primefactors; // Does the primefactorisation of a number;
@@ -65,39 +68,53 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
+    int n, k;
+    cin >> n >> k;
+    vector<pair<int,int>> vp1;
 
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
     for(int i=0; i<n; i++)
     {
-
-        time += v1[i];
-        if(time<=t)
-        {
-            count++;
-        }
-        else
-        {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
-        }
-
+        int x, y;
+        cin >> x >> y;
+        vp1.pb(mp(x, y));
     }
-    v2.pb(count);
 
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
+    sort(vp1);
+
+    for(int i=1; i<n; i++)
+    {
+        vp1[i].second += vp1[i-1].second;
+    }
+
+    vector<int> v1;
+    vector<int> v2;
+
+    for(auto &value : vp1)
+    {
+        v1.pb(value.first);
+        v2.pb(value.second);
+    }
+
+
+    int x=0;
+    vector<int> v3;
+
+    for(int i=0; i<v1.size(); i++)
+    {
+        int num = v1[i]+k-1;
+        auto it = upperbound(v1, num);
+        int pos = it-v1.begin();
+        pos--;
+        int l = v2[pos]-x;
+        v3.pb(l);
+        x=v2[i];
+    }
+
+    sort(v3);
+
+    int ans = v3[v3.size()-1];
     
-    
+    cout << ans << endl;
 }
 
 

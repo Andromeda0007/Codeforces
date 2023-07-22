@@ -10,7 +10,7 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
+#define print(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -20,6 +20,9 @@ using namespace std;
 #define auto2(v1)               for(auto &value : v1) {cout << value.first << " " <<value.second << endl;} 
 int gcd(int a,int b)            { if (b==0) return a; return gcd(b, a%b); } // take a=0;
 int lcm(int a,int b)            { return a/gcd(a,b)*b; }  // take a = v[0];
+
+const int N = 1e5+10;
+vector<int> dp(N, -1);
 
 //================================================================================================================//
 vector<int> primefactors; // Does the primefactorisation of a number;
@@ -65,38 +68,46 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        int n;
+        cin >> n;
+        vector<int> v1;
+        inputvec(v1, n);
 
-        time += v1[i];
-        if(time<=t)
+        int time=0;
+        int num = v1[0];
+        for(int i=1; i<n; i++)
         {
-            count++;
-        }
-        else
-        {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
-        }
+            if(v1[i]<num)
+            {
+                int k = v1[i-1] - v1[i];
+                int x = log2(k);
+                deb(x);
 
+                deb(pow(2,x));
+
+                if(pow(2, x)!=k)
+                {
+                    x++;
+                } 
+                deb(x);
+                deb(pow(2,x)); 
+                int sum = pow(2, x);
+                v1[i]+= sum;
+                x++;
+
+                if(x>time)
+                {
+                    time = x;
+                }
+
+            }
+            num = v1[i];
+        }
+        
+        cout << time << endl;
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 

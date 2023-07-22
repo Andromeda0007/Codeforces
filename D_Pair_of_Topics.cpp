@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,38 +64,63 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
+    int n;
+    cin >> n;
     vector<int> v1;
-    inputvec(v1, n);
-
     vector<int> v2;
+    inputvec(v1, n);
+    inputvec(v2, n);
 
-    int count=0;
-    int pos=0;
-    int time = 0;
+    vector<int> vn;
+    vector<int> vz;
+    vector<int> vp;
+
+
     for(int i=0; i<n; i++)
     {
+        int k = v1[i]-v2[i];
 
-        time += v1[i];
-        if(time<=t)
+        if(k<0)
         {
-            count++;
+            vn.pb(abs(k));
+        }
+        else if(k>0)
+        {
+            vp.pb(k);
         }
         else
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            vz.pb(k);
         }
-
     }
-    v2.pb(count);
 
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
+    if(vp.size()==0)
+    {
+        cout << 0 << endl;
+    }
+    else if(vn.size()==0)
+    {
+        int count = 0;
+        count += vz.size()*vp.size();
+
+        count += (vp.size())*(vp.size()-1)/2;
+        cout << count << endl;
+    }
+    else
+    {
+        int count = 0;
+        count += vz.size()*vp.size();
+
+        count += (vp.size())*(vp.size()-1)/2;
+
+        for(int i=0; i<vn.size(); i++)
+        {
+            auto it = upperbound(vp, vn[i]);
+            int pos = it - vp.begin();
+            count += vp.size()-pos;
+        }
+        cout << count << endl;
+    }
     
 }
 

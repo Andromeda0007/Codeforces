@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,38 +64,39 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
-
-        time += v1[i];
-        if(time<=t)
+        int n;
+        cin >> n;
+        if(n%2==0)
         {
-            count++;
+            cout << n/2 <<  " " << n/2 << endl; 
+        }
+        else if(n%3==0)
+        {
+            cout << n/3 <<  " " << 2*n/3 << endl;
         }
         else
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            factorize(n);
+            if(primefactors.size()==1)
+            {
+                cout << 1 <<  " " << n-1 << endl;
+            }
+            else
+            {
+                int sum = 1;
+                for(int i=1; i<primefactors.size(); i++)
+                {
+                    sum *= primefactors[i];
+                }
+
+                cout << sum << " " << n-sum << endl;
+            }
+            primefactors.clear();
+            
         }
-
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 

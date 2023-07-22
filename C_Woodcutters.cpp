@@ -10,7 +10,7 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
+#define print(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -20,6 +20,9 @@ using namespace std;
 #define auto2(v1)               for(auto &value : v1) {cout << value.first << " " <<value.second << endl;} 
 int gcd(int a,int b)            { if (b==0) return a; return gcd(b, a%b); } // take a=0;
 int lcm(int a,int b)            { return a/gcd(a,b)*b; }  // take a = v[0];
+
+const int N = 1e5+10;
+vector<int> dp(N, -1);
 
 //================================================================================================================//
 vector<int> primefactors; // Does the primefactorisation of a number;
@@ -65,39 +68,60 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
+    int n;
+    cin >> n;
     vector<int> v1;
-    inputvec(v1, n);
-
     vector<int> v2;
+    vector<int> v3;
 
-    int count=0;
-    int pos=0;
-    int time = 0;
     for(int i=0; i<n; i++)
     {
+        int x, y;
+        cin >> x >> y;
+        
+        v1.pb(x-y);
+        v2.pb(x);
+        v3.pb(x+y);
+    }
 
-        time += v1[i];
-        if(time<=t)
+    if(n==1)
+    {
+        cout << 1 << endl;
+    }
+    else
+    {
+        int count=2;
+        bool flag=true;
+
+        for(int i=1; i<n-1; i++)
         {
-            count++;
+            if(v1[i]>v2[i-1])
+            {
+                count++;
+                flag = false;
+            }
+            else
+            {
+                flag = true;
+            }
+
+            if(flag)
+            {
+                if(v3[i]<v2[i+1])
+                {
+                    count++;
+                    v2[i]=v3[i];
+                    flag = false;
+                }
+            }
+
         }
-        else
-        {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
-        }
+
+        cout << count << endl;
 
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
-    
 }
+    
+    
 
 

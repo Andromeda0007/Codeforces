@@ -5,12 +5,12 @@ using namespace std;
 #define mp  make_pair
 #define IO_FAST                 ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define testcase                int t; cin >> t; while(t--)
-#define inputvec(v1, n)        for(int i=0; i<n; i++) {int x; cin >> x; v1.pb(x);}
+#define inputvec(v1, n)         for(int i=0; i<n; i++) {int x; cin >> x; v1.pb(x);}
 #define inputvecp(v1, n)        for(int i=0; i<n; i++) {int x, y; cin >> x >> y; v1.pb(mp(x,y));}
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
+#define print(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -21,6 +21,9 @@ using namespace std;
 int gcd(int a,int b)            { if (b==0) return a; return gcd(b, a%b); } // take a=0;
 int lcm(int a,int b)            { return a/gcd(a,b)*b; }  // take a = v[0];
 
+const int N = 1e5+10;
+vector<int> dp(N, -1);
+
 //================================================================================================================//
 vector<int> primefactors; // Does the primefactorisation of a number;
 void factorize(int n)     
@@ -30,12 +33,34 @@ void factorize(int n)
 	if(n>2) primefactors.pb(n);
 }
 //================================================================================================================//
+vector<vector<int>> generatevalue(const vector<vector<int>> &v) // TO generate all thevalues from a vectorofvector;
+{if(v.empty()) {  return {{}};}
+    vector<vector<int>> vr;
+    for(int num : v[0]){
+        vector<vector<int>> subvalue = generatevalue(vector<vector<int>>(v.begin() + 1, v.end()));
+        for(const vector<int>& subset : subvalue){
+            vector<int> currentSet = {num};
+            currentSet.insert(currentSet.end(), subset.begin(), subset.end());
+            vr.pb(currentSet);}}
+    return vr;
+     // vector<vector<int>> value = generatevalue(v);
+}
+//================================================================================================================//
 vector<int> divisors; // Gives me all the different factors.
 void factors(int n)
 {
     for(int i=1; i<=n; i++){ if(n%i==0)  divisors.pb(i);}
 }
+//==============================================================================================================//
+bool isSubsequence(string s1, string s2) // to check if string s1 is a subsequence of string s2;
+{
+    int i=0, j=0;
+    while(i<s1.size() && j<s2.size()){
+        if(s1[i] == s2[j]) {i++;} j++;}
+    return (i == s2.size());
+}
 //================================================================================================================//
+
 vector<vector<int>> subsets;  // To Generate all the subsets of a vector;
 void generatesubset(vector<int> &subset, int i, vector<int> v1)
 {
@@ -46,11 +71,14 @@ void generatesubset(vector<int> &subset, int i, vector<int> v1)
 // signed main(){
 //     int n;cin >> n;vector<int> v1;inputvec(v1, n);vector<int> subset;generatesubset(subset, 0, v1);
 //     for(auto &subset : subsets){for(auto &elements : subset){ cout << elements << " ";}cout << endl;}}
+
 //================================================================================================================//
+
 void generatesubseq(string s1, string ans) // To generate all the subsequence of a string
 {if(s1.size()==0){cout << ans << endl;  return;}    char c1 = s1[0];    string rest = s1.substr(1);
 generatesubseq(rest, ans);  generatesubseq(rest, ans+c1);}
 // generatesubseq(s1, ""); -->  Inside Signed main()
+
 //================================================================================================================//
 string binary(int a)  // convert a decimal number to binary number
 {   
@@ -65,39 +93,70 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        int n, k;
+        cin >> n >> k;
 
-        time += v1[i];
-        if(time<=t)
+        vector<int> v1;
+        inputvec(v1, n);
+
+        vector<vector<int>> v;
+
+        vector<pair<int,int>> vp1;
+
+        for(int i=0; i<n; i++)
         {
-            count++;
+            vp1.pb(mp(v1[i], i+1));
         }
-        else
+
+        sort(vp1);
+
+        int num = vp1[0].first;
+        vector<int> v2;
+        for(int i=0; i<n; i++)
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            if(vp1[i].first==num)
+            {
+                v2.pb(vp1[i].second);
+            }
+            else
+            {
+                v.pb(v2);
+                v2.clear();
+                num = vp1[i].first;
+                v2.pb(vp1[i].second);
+            }
         }
+        v.pb(v2);
+
+        vector<int> v4;
+        for(int i=0; i<v.size(); i++)
+        {
+            vector<int> v3;
+            v3.pb(v[i][0]-1);
+
+            for(int j=1; j<v[i].size(); j++)
+            {
+                int d = v[i][j] - v[i][j-1]-1;
+                v3.pb(d);
+            }
+            
+            v3.pb(n - v[i][v[i].size()-1]);
+
+
+            sort(v3);
+            v3[v3.size()-1]/=2;
+            sort(v3);
+            v4.pb(v3[v3.size()-1]);
+            
+        }
+
+        sort(v4);
+
+        cout << v4[0] << endl;
 
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
-
 

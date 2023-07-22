@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,38 +64,103 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        int n, num;
+        cin >> n >> num;
 
-        time += v1[i];
-        if(time<=t)
-        {
-            count++;
-        }
-        else
-        {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
-        }
+        vector<int> v1;
+        vector<int> v2;
+        vector<int> v3;
 
+        inputvec(v1, n);
+        inputvec(v2, n);
+        inputvec(v3, n);
+
+
+        int k=0;
+        int a=0;
+        bool flag = false;
+
+        if(k==num)
+        {
+            flag = true;
+        }
+        deb(k);
+        if(flag == false)
+        {
+            for(int i=0; i<n; i++)
+            {
+                if(k==num)
+                {
+                    flag = true;
+                    break;
+                }
+               
+                int nm = k|v1[i];
+                deb(nm);
+                if(nm|num == num)
+                {
+                    cout << (nm|num) << endl;
+                    cout << "hello" << endl;
+                    k = k|v1[i];
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            cout << k << endl;
+        }
+        
+        deb(k);
+        if(flag == false)
+        {
+            for(int i=0; i<n; i++)
+            {
+                if(k==num)
+                {
+                    flag = true;
+                    break;
+                }
+
+                if(k|v2[i]|num == num)
+                {
+                    k = k|v2[i];
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        deb(k);
+
+        if(flag == false)
+        {
+            for(int i=0; i<n; i++)
+            {
+                if(k==num)
+                {
+                    flag = true;
+                    break;
+                }
+
+                if(k|v3[i]|num == num)
+                {
+                    k = k|v3[i];
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        deb(k);
+
+        flag? cout << "Yes\n" : cout << "No\n";
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 

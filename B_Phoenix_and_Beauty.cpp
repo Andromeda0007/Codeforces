@@ -10,7 +10,6 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -65,39 +64,59 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        int n, k;
+        cin >> n >> k;
+        vector<int> v1;
+        inputvec(v1, n);
+        set<int> s;
 
-        time += v1[i];
-        if(time<=t)
+        for(int i=0; i<n; i++)
         {
-            count++;
+            s.insert(v1[i]);
+        }
+
+        if(s.size()>k)
+        {
+            cout << -1 << endl;
         }
         else
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            vector<int> v2;
+            for(auto &value : s)
+            {
+                v2.pb(value);
+            } 
+
+            int a = v2[v2.size()-1];
+
+            deb(k);
+            deb(v2.size());
+            deb(k-v2.size());
+            if(k>v2.size())
+            {
+                int d = k-v2.size();
+                for(int i=0; i<k-v2.size(); i++)
+                {
+                    v2.pb(a);
+                }
+            }
+
+            auto1(v2);
+
+            int count = v2.size()*n;
+            cout << count << endl;
+
+            for(int i=0; i<n; i++)
+            {
+                for(int j=0; j<v2.size(); j++)
+                {
+                    cout << v2[j] << " ";
+                }
+            }
+            cout << endl;
         }
-
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
-
-

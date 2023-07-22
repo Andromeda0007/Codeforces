@@ -5,12 +5,12 @@ using namespace std;
 #define mp  make_pair
 #define IO_FAST                 ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define testcase                int t; cin >> t; while(t--)
+#define gd(a,b)                 int c = a/b;  if(c*b!=a){c++;return c;}
 #define inputvec(v1, n)        for(int i=0; i<n; i++) {int x; cin >> x; v1.pb(x);}
 #define inputvecp(v1, n)        for(int i=0; i<n; i++) {int x, y; cin >> x >> y; v1.pb(mp(x,y));}
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -61,42 +61,72 @@ string binary(int a)  // convert a decimal number to binary number
     for(int i=0; i<s1.size(); i++){ if(s1[i]!='1')  count++; else    break;} s1.erase(0, count);
     return s1;
 }
+
+int divide(int a, int b)
+{
+    int c = a/b;
+    if(c*b!=a)
+    {
+        c++;
+    }
+
+    return c;
+}
 //================================================================================================================//
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
+    int n, m;
+    cin >> n >> m;
 
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    if(m<=n)
     {
-
-        time += v1[i];
-        if(time<=t)
+        cout << n-m << endl;
+    }
+    else
+    {
+        bool flag = false;
+        int count=0;
+        while(m%2==0)
         {
+            m /= 2;
             count++;
+
+            if(m<=n)
+            {
+                flag = true;
+                break;
+            }
+        }
+
+
+        if(flag)
+        {
+            count+=n-m;
+            cout << count << endl;
         }
         else
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+
+            while(divide(m,2) > n)
+            {
+                if(m%2==1)
+                {
+                    m++;
+                    count++;
+                }
+                m/=2;
+                count++;
+            }
+
+            m/=2;
+            count++;
+
+            count+= n-m;
+            cout << count << endl;
+
         }
-
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 

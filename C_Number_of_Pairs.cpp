@@ -10,7 +10,7 @@ using namespace std;
 #define sort(v1)                sort(v1.begin(), v1.end())
 #define reverse(v1)             reverse(v1.begin(), v1.end())
 #define deb(x)                  cout << #x <<  " = " << x << endl;
-#define bed(x)                  cout << #x << endl;
+#define print(x)                  cout << #x << endl;
 #define tolower(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::tolower)
 #define toupper(s1)             transform(s1.begin(), s1.end(), s1.begin(), ::toupper)
 #define remove_char(s1, a)      s1.erase(remove(s1.begin(), s1.end(), 'a'), s1.end())  // does not work!
@@ -20,6 +20,9 @@ using namespace std;
 #define auto2(v1)               for(auto &value : v1) {cout << value.first << " " <<value.second << endl;} 
 int gcd(int a,int b)            { if (b==0) return a; return gcd(b, a%b); } // take a=0;
 int lcm(int a,int b)            { return a/gcd(a,b)*b; }  // take a = v[0];
+
+const int N = 1e5+10;
+vector<int> dp(N, -1);
 
 //================================================================================================================//
 vector<int> primefactors; // Does the primefactorisation of a number;
@@ -65,38 +68,63 @@ string binary(int a)  // convert a decimal number to binary number
 signed main()
 {
     IO_FAST
-    int n, t;
-    cin >> n >> t;
-
-    vector<int> v1;
-    inputvec(v1, n);
-
-    vector<int> v2;
-
-    int count=0;
-    int pos=0;
-    int time = 0;
-    for(int i=0; i<n; i++)
+    testcase
     {
+        int n, l, r;
+        cin >> n >> l >> r;
 
-        time += v1[i];
-        if(time<=t)
+        vector<int> v1;
+        inputvec(v1, n);
+
+        sort(v1);
+        vector<int> v2;
+        for(int i=0; i<n; i++)
         {
-            count++;
-        }
-        else
+            if(v1[i]<=r)
+            {
+                v2.pb(v1[i]);
+            }
+        } 
+
+        auto1(v2);
+
+        int count=0;
+
+        for(int i=0; i<v2.size(); i++)
         {
-            v2.pb(count);
-            time -= v1[pos];
-            pos++;
+            int a = l-v2[i];
+            int b = r-v2[i];
+            deb(a);
+            deb(b);
+
+            auto it1 = lowerbound(v2, a);
+            auto it2 = upperbound(v2, b);
+            int pos1 = it1 - v2.begin();
+            int pos2 = it2 - v2.begin();
+            pos2--;
+            if(pos1==v2.size())
+            {
+                pos1--;
+            }
+            int num1 = v2[pos1];
+            int num2 = v2[pos2];
+            int k = pos2-pos1;
+            deb(k);
+
+            deb(num1);
+            deb(num2);
+            if(v2[i]>=num1 && v2[i]<=num2)
+            {
+                k--;
+            }
+            deb(k);
+
+
+            count+=k;
         }
 
+        deb(count);
     }
-    v2.pb(count);
-
-    sort(v2);
-    cout << v2[v2.size()-1] << endl;
-    
     
 }
 
